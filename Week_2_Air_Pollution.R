@@ -17,3 +17,26 @@ pollutantmean<-function(directory,pollutant,id=1:332){
   mean(air_pollution[[pollutant]],na.rm = TRUE)
   
 }
+
+##The below logic is not able to satisfy one of the cases,therfore needs to be looked at
+
+complete<-function(directory,id=1:332){
+  path_directory<-paste("XXXXXXX",directory,sep="/") #Put your path details in the first argument
+  files_list<-list.files(path_directory)
+  id_count<-length(id)
+  i=1
+  complete_cases<-data.frame()
+  while(id_count!=0){
+    path_directory_temp<-paste(path_directory,files_list[id[i]],sep="/")
+    read_data_temp<-read.csv(path_directory_temp,header=T)
+    complete_cases_temp<-as.data.frame(table(complete.cases(read_data_temp)))
+    complete_cases_temp['ID']<-unique(read_data_temp$ID)
+    complete_cases<-rbind(complete_cases,complete_cases_temp)
+    id_count<-id_count-1
+    i<-i+1
+  }
+  complete_cases_subset<-subset(complete_cases,Var1=='TRUE',select=c(Freq,ID))
+  complete_cases_subset['nobs']<-complete_cases_subset$Freq
+  final_result<-as.data.frame(complete_cases_subset[,c("ID","nobs")])
+  final_result
+}
