@@ -64,3 +64,26 @@ complete<-function(directory,id=1:332){
   }
   complete_cases
 }
+
+
+## Correlation function
+
+corr<-function(directory,threshold=0){
+  path_directory<-paste(initial_path,directory,sep="/")
+  id_obs <- complete(directory)
+  threshold_list<-id_obs[id_obs$nobs>threshold,]
+  id_list<-threshold_list$id
+  files_list<-list.files(path_directory)
+  id_count=length(id_list)
+  i=1
+  corr_values<-data.frame()
+  while(id_count!=0){
+    path_directory_temp<-paste(path_directory,files_list[id_list[i]],sep="/")
+    read_data_temp<-read.csv(path_directory_temp,header=T)
+    complete_cases_temp<-data.frame(cor_value=cor(read_data_temp$nitrate,read_data_temp$sulfate,use="complete.obs"))
+    corr_values<-rbind(corr_values,complete_cases_temp)
+    id_count<-id_count-1
+    i<-i+1
+  }
+  corr_values$cor_value
+}
