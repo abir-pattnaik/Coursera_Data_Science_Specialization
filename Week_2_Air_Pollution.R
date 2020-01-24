@@ -45,7 +45,7 @@ complete<-function(directory,id=1:332){
 ##Second logic for complete function 
 
 complete<-function(directory,id=1:332){
-  path_directory<-paste("/Users/abir.pattnaik/Desktop/Coursera",directory,sep="/") #Put your path details in the first argument
+  path_directory<-paste("XXXXXXX",directory,sep="/") #Put your path details in the first argument
   files_list<-list.files(path_directory)
   id_count<-length(id)
   #print(id_count)
