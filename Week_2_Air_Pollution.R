@@ -40,3 +40,27 @@ complete<-function(directory,id=1:332){
   final_result<-as.data.frame(complete_cases_subset[,c("ID","nobs")])
   final_result
 }
+
+
+##Second logic for complete function 
+
+complete<-function(directory,id=1:332){
+  path_directory<-paste("/Users/abir.pattnaik/Desktop/Coursera",directory,sep="/") #Put your path details in the first argument
+  files_list<-list.files(path_directory)
+  id_count<-length(id)
+  #print(id_count)
+  i=1
+  complete_cases<-data.frame()
+  while(id_count!=0){
+    path_directory_temp<-paste(path_directory,files_list[id[i]],sep="/")
+    #print(path_directory_temp)
+    read_data_temp<-read.csv(path_directory_temp,header=T)
+    #print(read_data_temp)
+    complete_cases_temp<-data.frame(id=id[i],nobs=sum(complete.cases(read_data_temp)))
+    #print(sum(complete.cases(read_data_temp)))
+    complete_cases<-rbind(complete_cases,complete_cases_temp)
+    id_count<-id_count-1
+    i<-i+1
+  }
+  complete_cases
+}
