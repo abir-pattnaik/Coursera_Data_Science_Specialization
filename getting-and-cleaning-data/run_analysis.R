@@ -57,4 +57,5 @@ subset_data_average <- subset_data %>%
   summarise_each(funs(mean))
 
 ##Write to a dataset 
-write.table(subset_data_average,file = './cleaned_data.txt')
+write.table(subset_data_average,file = './cleaned_data.txt',row.name = FALSE)
+
